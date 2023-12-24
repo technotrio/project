@@ -1,2 +1,5 @@
 dvc
 dvc-gdrive
+pandas
+mlflow 
+scikit-learn
