@@ -27,10 +27,20 @@ Initialize DVC and Fetch Data:
 (Select the google drive account that has access to the remote files, and allow the permissions once redirected to web page,
  it can be done through terminal too )
 
-Stash Local Changes before switching Branch
+Stash Local Changes before switching Branch:
  - git stash
  - git checkout <branch-name>
  - git stash apply
 
+ 
+
+# Data preprocessing and MLflow tracking
+
+Run the scripts:
+ - python preprocess.py
+ - python train_model.py
+
+To view the MLflow UI, run:
+ - mlflow ui
 
 

@@ -1,24 +1,47 @@
 # Import necessary libraries
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import FunctionTransformer
 
-# Load the raw sensor data
-raw_data = pd.read_csv('dummy_sensor_data.csv')
 
-# Assuming 'Reading' is the target variable, separate features and target
-X = raw_data.drop('Reading', axis=1)
-y = raw_data['Reading']
+def preprocess_data(file_path):
+    # Load the raw sensor data
+    raw_data = pd.read_csv(file_path, parse_dates=['Timestamp'])
 
-# Normalize or scale features (you can choose the appropriate scaler)
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+    # Separate features and target
+    X = raw_data[['Timestamp', 'Machine_ID', 'Sensor_ID']]
+    y = raw_data['Reading']
 
-# Split the data into training and validation sets
-X_train, X_val, y_train, y_val = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+    # Function to extract time-related features from datetime
+    def add_time_features(df):
+        df['Hour'] = df['Timestamp'].dt.hour
+        df['Minute'] = df['Timestamp'].dt.minute
+        df['Second'] = df['Timestamp'].dt.second
+        df['DayofWeek'] = df['Timestamp'].dt.dayofweek
+        df['DayofMonth'] = df['Timestamp'].dt.day
+        df['Month'] = df['Timestamp'].dt.month
+        df['Year'] = df['Timestamp'].dt.year
+        return df.drop('Timestamp', axis=1)
 
-# Save the preprocessed data
-pd.DataFrame(X_train).to_csv('preprocessed_X_train.csv', index=False)
-pd.DataFrame(X_val).to_csv('preprocessed_X_val.csv', index=False)
-pd.DataFrame(y_train).to_csv('preprocessed_y_train.csv', index=False)
-pd.DataFrame(y_val).to_csv('preprocessed_y_val.csv', index=False)
+    # Define column transformer for preprocessing
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('timestamp', FunctionTransformer(add_time_features), ['Timestamp']),
+            ('categorical', OneHotEncoder(), ['Machine_ID', 'Sensor_ID'])
+        ],
+        remainder='passthrough'
+    )
+
+    # Define the pipeline with preprocessing and scaling
+    pipeline = Pipeline([
+        ('preprocessor', preprocessor),
+        ('scaler', StandardScaler())
+    ])
+
+    # Preprocess and scale the features
+    X_scaled = pipeline.fit_transform(X)
+
+    return X_scaled, y
