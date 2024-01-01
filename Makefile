@@ -3,10 +3,10 @@ install:
 		pip install -r requirements.txt
 
 build:
-	docker build -t mflow:lts .
+	docker build -t project .
 
 run:
-	docker run -p 8080:8080 mlflow
+	docker run -p 8080:8080 project
 
 lint:
 	pylint --disable=C,R app.py
