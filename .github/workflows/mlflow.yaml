@@ -22,15 +22,18 @@ jobs:
       - name: Setup DVC
         run: |
           pip install dvc
-
+          dvc remote modify myremotefolder gdrive_use_service_account false
+          dvc remote modify myremotefolder --local gdrive_gdfspath "https://drive.google.com/drive/folders/your_folder_id_here"
+        working-directory: ${{ github.workspace }}
+      
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
 
       - name: Pull data from DVC remote
         run: |
-          dvc pull -r myremotefolder
-
+          dvc pull -r myremotefolder --force
+          
       - name: Run DVC repro
         run: |
           dvc repro
