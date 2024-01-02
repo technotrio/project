@@ -1,0 +1,56 @@
+name: Generate and preprocess the data
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *' 
+
+jobs:
+  run:
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+
+      - name: Setup DVC
+        run: |
+          pip install dvc
+          dvc remote modify myremotefolder gdrive_use_service_account true
+          
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Pull data from DVC remote
+        run: |
+          dvc pull -r myremotefolder --force
+
+      - name: Run DVC repro
+        run: |
+          dvc repro
+      
+      - name: Git credentials
+        run: |
+          git config --global user.name "technotrio"
+
+      - name: DVC Add
+        run: |
+          dvc add data/dummy_sensor_data.csv
+
+      - name: Push data to DVC remote
+        run: |
+          dvc push -r myremotefolder
+          
+      - name: Commit changes to Git
+        run: |
+          git add .
+          git commit -m "Live data generation"
+          git push origin main
