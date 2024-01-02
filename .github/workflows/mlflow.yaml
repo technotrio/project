@@ -24,7 +24,7 @@ jobs:
       - name: Run DVC repro
         run: |
           dvc repro
-          dvc push
+          dvc push -r myremotefolder
       - name: Fetching updates
         run: |
           git fetch --prune
