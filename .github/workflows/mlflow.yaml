@@ -1,17 +1,15 @@
-name: Generate and preprocess the data
+name: DVC Tracking with Github Actions
 
 on:
   push:
     branches:
       - main
-  schedule:
-    - cron: '0 * * * *' 
 
 jobs:
   run:
     permissions: write-all
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -19,40 +17,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
 
-      - name: Setup DVC
-        run: |
-          pip install dvc
-          dvc remote add -d --local myremotefolder gdrive://1siyWwKDmfpcTsM0ttcuMXdR8z2Y--P7b
-          dvc remote modify myremotefolder gdrive_use_service_account false
-          dvc remote modify myremotefolder gdrive_gdfspath "https://drive.google.com/drive/folders/1siyWwKDmfpcTsM0ttcuMXdR8z2Y--P7b"
-        working-directory: ${{ github.workspace }}
-
       - name: Install Dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r requirements.txt 
 
-      - name: Pull data from DVC remote
-        run: |
-          dvc pull -r myremotefolder --force
-          
       - name: Run DVC repro
         run: |
           dvc repro
-      
-      - name: Git credentials
-        run: |
-          git config --global user.name "technotrio"
 
-      - name: DVC Add
+      - name: Fetching updates
         run: |
-          dvc add data/dummy_sensor_data.csv
+          git fetch --prune
 
-      - name: Push data to DVC remote
+      - name: Generate DVC metrics report
         run: |
-          dvc push -r myremotefolder
-          
-      - name: Commit changes to Git
-        run: |
-          git add .
-          git commit -m "Live data generation"
-          git push origin main
+          dvc metrics diff --md main > report.md
