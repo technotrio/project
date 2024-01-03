@@ -1,28 +1,5 @@
 schema: '2.0'
 stages:
-  get_data:
-    cmd: python random_data.py
-    deps:
-    - path: random_data.py
-      hash: md5
-      md5: 236ff7e7d14089bfe07f4f1e36ff3053
-      size: 2553
-    outs:
-    - path: dummy_sensor_data.csv
-      hash: md5
-      md5: 0934c18470ebea531857a2e0c8f2ee25
-      size: 208200
-  process_data:
-    cmd: python preprocess.py
-    deps:
-    - path: dummy_sensor_data.csv
-      hash: md5
-      md5: 0934c18470ebea531857a2e0c8f2ee25
-      size: 208200
-    - path: preprocess.py
-      hash: md5
-      md5: 788f9f2e7ea8d2137d74915275e07213
-      size: 1626
   generate_dummy_data:
     cmd: python random_data.py
     deps:
@@ -44,6 +21,7 @@ stages:
       size: 211702
     - path: train_model.py
       hash: md5
+<<<<<<< HEAD
       md5: 90f291ed400e393cbb80c1ecaaf3df35
       size: 2485
     outs:
@@ -52,3 +30,7 @@ stages:
       md5: 8955216cca25b58caf1dbf49a58b8ac7.dir
       size: 10180964
       nfiles: 18
+=======
+      md5: b2f04e37e91ef64e84829adf02a77045
+      size: 2483
+>>>>>>> 7cd7ea5313986627290a1ad7e58fc02dce2f88bf
