@@ -13,6 +13,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Docker image
-        run: |
-          docker pull techtrio/project:latest
+      - name: Run Docker imagw
