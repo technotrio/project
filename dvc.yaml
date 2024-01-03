@@ -11,5 +11,4 @@ stages:
     deps:
       - train_model.py
       - dummy_sensor_data.csv
-    outs:
-      - mlruns/
+    

@@ -23,9 +23,3 @@ stages:
       hash: md5
       md5: b2f04e37e91ef64e84829adf02a77045
       size: 2483
-    outs:
-    - path: mlruns/
-      hash: md5
-      md5: 23a06ad7e4a95b415db663eb24ae2ad8.dir
-      size: 6759988
-      nfiles: 18
