@@ -1,14 +1,12 @@
 # project
-<<<<<<< HEAD
-=======
+
 MLOPs Final Project
 >>>>>>> main
 Created a data generating script.
 Generated a .csv file.
 Initialised DVC.
 Utilizing DVC to track the csv file.
-<<<<<<< HEAD
-=======
+
 
 
 # how to clone the changes of i200588 
