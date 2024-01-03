@@ -1,0 +1,31 @@
+schema: '2.0'
+stages:
+  generate_dummy_data:
+    cmd: python random_data.py
+    deps:
+    - path: random_data.py
+      hash: md5
+      md5: 236ff7e7d14089bfe07f4f1e36ff3053
+      size: 2553
+    outs:
+    - path: dummy_sensor_data.csv
+      hash: md5
+      md5: 3ab5040023f585636fc3736b21c10f9d
+      size: 211702
+  train_model:
+    cmd: python train_model.py
+    deps:
+    - path: dummy_sensor_data.csv
+      hash: md5
+      md5: 3ab5040023f585636fc3736b21c10f9d
+      size: 211702
+    - path: train_model.py
+      hash: md5
+      md5: b2f04e37e91ef64e84829adf02a77045
+      size: 2483
+    outs:
+    - path: mlruns/
+      hash: md5
+      md5: 23a06ad7e4a95b415db663eb24ae2ad8.dir
+      size: 6759988
+      nfiles: 18
