@@ -54,3 +54,13 @@ jobs:
           git add .
           git commit -m "live data generation"
           git push origin main
+
+      - name: Drift monitoring
+        run: |
+            result=$(python monitor.py)
+            echo "::set-output name=condition_result::$result"
+            
+      - name: Retrain if drift monitoring
+        if: ${{ needs.run.outputs.condition_result == 'True' }}
+        run: |
+            python train_model.py        
