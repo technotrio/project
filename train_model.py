@@ -12,6 +12,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
 from preprocess import preprocess_data
 
+mlflow.set_tracking_uri("mlruns")  # Set to your desired tracking URI
+mlflow.sklearn.autolog()
+
 # Load preprocessed data
 file_path = 'dummy_sensor_data.csv'
 X_processed, y = preprocess_data(file_path)
