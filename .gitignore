@@ -1,2 +1,4 @@
 /venv/Lib
 /mlruns
+/__pycache__
+/venv
