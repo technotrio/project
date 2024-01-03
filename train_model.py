@@ -58,7 +58,8 @@ with mlflow.start_run() as run:
   mlflow.log_metrics({'mse_train': mse_train})
 
   # Save the best model
-  mlflow.sklearn.log_model(best_model, "best_model")
+  mlruns_path = os.path.join(os.getcwd(), 'mlruns')
+  mlflow.sklearn.log_model(best_model, f"{mlruns_path}/best_model")
 
 # Register the best model in the MLflow Model Registry
 model_name = 'PredictiveMaintenanceModel'
