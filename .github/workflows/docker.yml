@@ -16,4 +16,3 @@ jobs:
       - name: Run Docker image
         run: |
           docker pull techtrio/project:latest
-          docker run techtrio/project:latest
