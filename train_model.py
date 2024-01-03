@@ -12,9 +12,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
 from preprocess import preprocess_data
 
-mlflow.set_tracking_uri("mlruns")  # Set to your desired tracking URI
-mlflow.sklearn.autolog()
-
 # Load preprocessed data
 file_path = 'dummy_sensor_data.csv'
 X_processed, y = preprocess_data(file_path)
@@ -33,8 +30,8 @@ model = RandomForestRegressor()
 
 # Define hyperparameters for tuning
 param_grid = {
-  'n_estimators': [50, 100, 150],
-  'max_depth': [None, 10, 20, 30]
+    'n_estimators': [50, 100, 150],
+    'max_depth': [None, 10, 20, 30]
 }
 
 # Use GridSearchCV for hyperparameter tuning
@@ -46,20 +43,19 @@ best_model = grid_search.best_estimator_
 
 # Log model parameters and metrics with MLflow
 with mlflow.start_run() as run:
-  # Log preprocessing parameters
-  mlflow.log_params({'data_preprocessing': 'ColumnTransformer with OneHotEncoder'})
+    # Log preprocessing parameters
+    mlflow.log_params({'data_preprocessing': 'ColumnTransformer with OneHotEncoder'})
 
-  # Log best model parameters
-  mlflow.log_params({'n_estimators': best_model.n_estimators, 'max_depth': best_model.max_depth})
+    # Log best model parameters
+    mlflow.log_params({'n_estimators': best_model.n_estimators, 'max_depth': best_model.max_depth})
 
-  # Log training metrics for the best model
-  y_pred_train = best_model.predict(X_train)
-  mse_train = mean_squared_error(y_train, y_pred_train)
-  mlflow.log_metrics({'mse_train': mse_train})
+    # Log training metrics for the best model
+    y_pred_train = best_model.predict(X_train)
+    mse_train = mean_squared_error(y_train, y_pred_train)
+    mlflow.log_metrics({'mse_train': mse_train})
 
-  # Save the best model
-  mlruns_path = os.path.join(os.getcwd(), 'mlruns')
-  mlflow.sklearn.log_model(best_model, f"{mlruns_path}/best_model")
+    # Save the best model
+    mlflow.sklearn.log_model(best_model, "best_model")
 
 # Register the best model in the MLflow Model Registry
 model_name = 'PredictiveMaintenanceModel'
