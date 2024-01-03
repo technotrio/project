@@ -47,4 +47,12 @@ To view the MLflow UI, run:
  - mlflow ui
 
 
->>>>>>> main
+# Docker Image
+Run:
+Docker pull techtrio/project:v1
+docker run -p 8080:8080 techtrio/project:v1
+
+This will run the flask file to show predictions
+
+# Drift Monitoring
+Drift.py tells us whether the model has drift or not. In mlflow.yaml, a condition has been added to retrain the model in case drift is detected
