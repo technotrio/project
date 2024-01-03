@@ -1,1 +1,10 @@
 TASKS
+
+i200558:
+Data Acquisition
+
+i200828:
+Data Pre-processing and Model Training
+
+i200517:
+Deployment and Concept Drift Monitoring
