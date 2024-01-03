@@ -5,8 +5,8 @@ stages:
     deps:
     - path: random_data.py
       hash: md5
-      md5: 236ff7e7d14089bfe07f4f1e36ff3053
-      size: 2553
+      md5: dda00c07c0c808a4173688a582a5217d
+      size: 2623
     outs:
     - path: dummy_sensor_data.csv
       hash: md5
@@ -21,5 +21,16 @@ stages:
       size: 211702
     - path: train_model.py
       hash: md5
+<<<<<<< HEAD
+      md5: 90f291ed400e393cbb80c1ecaaf3df35
+      size: 2485
+    outs:
+    - path: mlruns/
+      hash: md5
+      md5: 8955216cca25b58caf1dbf49a58b8ac7.dir
+      size: 10180964
+      nfiles: 18
+=======
       md5: b2f04e37e91ef64e84829adf02a77045
       size: 2483
+>>>>>>> 7cd7ea5313986627290a1ad7e58fc02dce2f88bf

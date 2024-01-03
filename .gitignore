@@ -1,4 +1,7 @@
 /venv/Lib
 /mlruns
+<<<<<<< HEAD
+=======
 /__pycache__
 /venv
+>>>>>>> 7cd7ea5313986627290a1ad7e58fc02dce2f88bf

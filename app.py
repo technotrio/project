@@ -6,12 +6,28 @@ import os
 from preprocess import preprocess_data
 
 app = Flask(__name__)
+mlruns_path = os.path.join(os.getcwd(), 'mlruns')
 
-# Specify the MLflow experiment name and run ID
-mlflow_experiment_name = "bittersweet-deer-731"
-run_id = "0083f08e55b3466e9bf73a41b22e01f1"
-artifact_uri = f"file:///mlflow/mlruns/0/{run_id}/artifacts/best_model"
-loaded_model = mlflow.sklearn.load_model(artifact_uri)
+dvc_command = "dvc repro"
+
+latest_best_model_path = None
+latest_run_id = None
+for root, dirs, files in os.walk(mlruns_path):
+    for dir_name in dirs:
+        run_path = os.path.join(root, dir_name)
+        artifact_path = os.path.join(run_path, 'artifacts', 'best_model')
+
+        if os.path.exists(artifact_path):
+            if latest_run_id is None or dir_name > latest_run_id:
+                latest_run_id = dir_name
+                latest_best_model_path = artifact_path
+
+if latest_best_model_path:
+    artifact_uri = f"file://{latest_best_model_path}"
+    loaded_model = mlflow.sklearn.load_model(artifact_uri)
+    print(latest_best_model_path)
+else:
+    print("No 'best_model' artifact found in mlruns.")
 
 def predict():
     # Get the input data
