@@ -19,12 +19,6 @@ X_processed, y = preprocess_data(file_path)
 # Split the data into training and validation sets
 X_train, X_val, y_train, y_val = train_test_split(X_processed, y, test_size=0.2, random_state=42)
 
-# Save the preprocessed data
-#pd.DataFrame(X_train).to_csv('preprocessed_X_train.csv', index=False)
-#pd.DataFrame(X_val).to_csv('preprocessed_X_val.csv', index=False)
-#pd.DataFrame(y_train).to_csv('preprocessed_y_train.csv', index=False)
-#pd.DataFrame(y_val).to_csv('preprocessed_y_val.csv', index=False)
-
 # Create and train the model
 model = RandomForestRegressor()
 
@@ -55,15 +49,17 @@ with mlflow.start_run() as run:
     mlflow.log_metrics({'mse_train': mse_train})
 
     # Save the best model
-    model_path = "best_model"
-    mlflow.sklearn.log_model(best_model, model_path)
+    mlflow.sklearn.log_model(best_model, "best_model")
+
+    # Obtain the run ID
+    run_id = mlflow.active_run().info.run_id
 
 # Register the best model in the MLflow Model Registry
 model_name = 'PredictiveMaintenanceModel'
 model_stage = 'Production'
 
 # Get the model URI
-model_uri = f"best_model"
+model_uri = f"runs:/{run_id}/best_model"
 
 # Register the best model in the Model Registry
 mlflow.register_model(model_uri, model_name)
