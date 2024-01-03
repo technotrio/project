@@ -1,7 +1,7 @@
 # project
 
 MLOPs Final Project
->>>>>>> main
+
 Created a data generating script.
 Generated a .csv file.
 Initialised DVC.
